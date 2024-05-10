@@ -1,15 +1,11 @@
 ---
-on:
-  push:
-    branches:
-      - main
-      - master
-      - dev
+on: [push]
 env:
   JAVA_DISTRIBUTION: zulu
   JAVA_VERSION: 17
 jobs:
   build:
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,8 +18,6 @@ jobs:
         uses: gradle/gradle-build-action@ef76a971e2fa3f867b617efd72f2fbd72cf6f8bc
       - name: fix permission error
         run: chmod +x gradlew
-     # - name: fix Windows permission error
-     #   run: chmod +x /home/runner/.konan/dependencies/resourcehacker/ResourceHacker.exe
       - name: 🛠️ Build JS bundle
         run: ./gradlew jsBrowserProductionWebpack
       - name: Deploy 🚀 to GitHub Pages
@@ -32,6 +26,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: github-pages
           FOLDER: build/dist/js/productionExecutable
-          CLEAN: true
-      - name: Lines of Code Badge
-        uses: shadowmoose/GHA-LoC-Badge@1.0.0
