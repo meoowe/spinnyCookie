@@ -33,5 +33,4 @@ class MyScene : Scene() {
             image.rotation += rotation
 		}
 	}
-    // hii
 }
