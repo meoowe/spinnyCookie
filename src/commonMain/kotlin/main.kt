@@ -37,7 +37,7 @@ class MyScene : Scene() {
         }
         val cookieDisplay = text(" = $cookies") {
             alignLeftToRightOf(cookie)
-        }
+        }//hi
         image.onClick { rotation += 1.degrees; cookies += 1 ; cookieDisplay.text = " = $cookies"}
         while (true) {
             wait(15.milliseconds)
