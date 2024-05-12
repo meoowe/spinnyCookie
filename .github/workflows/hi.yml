@@ -29,8 +29,6 @@ jobs:
         run: ./gradlew jsBrowserProductionWebpack
       - name: 🫙 Build Jar File
         run: ./gradlew packageJvmFatJar
-      - name: 🐧 Build Linux Executable
-        run: ./gradlew packageJvmLinuxApp
       - name: Deploy 🚀 to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
