@@ -1,13 +1,20 @@
 ---
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - master
+      - dev
 env:
   JAVA_DISTRIBUTION: zulu
   JAVA_VERSION: 17
 jobs:
-  build:
-    concurrency: ci-${{ github.ref }}
-    runs-on: ubuntu-latest
-    steps:
+   build:
+     strategy:
+      matrix:
+        os: [ubuntu-latest]
+     runs-on: ${{matrix.os}}
+     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -20,9 +27,30 @@ jobs:
         run: chmod +x gradlew
       - name: 🛠️ Build JS bundle
         run: ./gradlew jsBrowserProductionWebpack
+      - name: 🫙 Build Jar File
+        run: ./gradlew packageJvmFatJar
+      - name: 🐧 Build Linux Executable
+        run: ./gradlew packageJvmLinuxApp
       - name: Deploy 🚀 to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: github-pages
           FOLDER: build/dist/js/productionExecutable
+          CLEAN: true
+      - name: Upload JS
+        uses: actions/upload-artifact@v4
+        with:
+          name: JS Bundle
+          path: "build/dist/js/productionExecutable"
+      - name: Upload Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: Jar Files
+          path: "build/libs"
+      - name: Upload Linux
+        uses: actions/upload-artifact@v4
+        with:
+          name: Linux Executable
+          path: "build/platforms"
+      
