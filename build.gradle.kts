@@ -5,7 +5,7 @@ plugins {
 }
 
 korge {
-	id = "com.sample.demo"
+	id = "com.meoowe.spinnyCookie"
 
 // To enable all targets at once
 

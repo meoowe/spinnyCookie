@@ -23,13 +23,15 @@ class MyScene : Scene() {
     }
 
     override suspend fun SContainer.sceneMain() {
+        val worldHi = 2000.degrees
+        val HighScore = text("High Score( World )   ")
         val image = image(resourcesVfs["cookie.png"].readBitmap()) {
             anchor(.5, .5)
             scale(0.8)
             position(256, 256)
         }
         var cookies = 0
-        var rotation = 1.degrees
+        var rotation = 0.degrees
         val cookie = image(resourcesVfs["cookie.png"].readBitmap()) {
             stage?.let { alignTopToTopOf(it) }
             stage?.let { alignLeftToLeftOf(it) }
@@ -38,7 +40,11 @@ class MyScene : Scene() {
         val cookieDisplay = text(" = $cookies") {
             alignLeftToRightOf(cookie)
         }//hi
-        image.onClick { rotation += 1.degrees; cookies += 1 ; cookieDisplay.text = " = $cookies"}
+        image.onClick {
+            rotation += 1.degrees; cookies += 1
+            cookieDisplay.text = " = $cookies"
+            if(rotation == worldHi){}
+        }
         while (true) {
             wait(15.milliseconds)
             image.rotation += rotation

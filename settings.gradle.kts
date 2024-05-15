@@ -5,7 +5,7 @@ pluginManagement {
 buildscript {
     val libsTomlFile = File(this.sourceFile?.parentFile, "gradle/libs.versions.toml").readText()
     var plugins = false
-    var version = ""
+    var version = "0.0.2"
     for (line in libsTomlFile.lines().map { it.trim() }) {
         if (line.startsWith("#")) continue
         if (line.startsWith("[plugins]")) plugins = true
@@ -22,4 +22,4 @@ buildscript {
 
 apply(plugin = "com.soywiz.korge.settings")
 
-rootProject.name = "korge-hello-world"
+rootProject.name = "spinnyCookie"
